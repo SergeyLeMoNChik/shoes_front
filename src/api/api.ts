@@ -23,7 +23,7 @@ class Api{
         return await request.json()
     }
     async put(path: string, body: object) {
-        const request = await fetch(this.baseUrl + path, { headers: { 'Content-Type': 'application/json;charset=utf-8' }, body: JSON.stringify(body), method:'Patch'})
+        const request = await fetch(this.baseUrl + path, { headers: { 'Content-Type': 'application/json;charset=utf-8' }, body: JSON.stringify(body), method:'Put'})
         return await request.json()
     }
 }

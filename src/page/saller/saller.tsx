@@ -13,6 +13,7 @@ export const SallerPage = () =>{
     
     const onSubmit = async (data: ISallerform)=>{
       await sallerApi.create(data)
+      console.log(data)
         refetch()
     }
 
@@ -28,7 +29,7 @@ export const SallerPage = () =>{
             <TextField id="standard-basic" {...register('pasportdata')} label="Enter Pasport Data" variant="standard"/>
             <TextField id="standard-basic" {...register('data_of_employment')} type={'date'} variant="standard"/>
             <Button type ='submit' variant="contained">Enter</Button>
-        </form>
+            </form>
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
 <TableHead>

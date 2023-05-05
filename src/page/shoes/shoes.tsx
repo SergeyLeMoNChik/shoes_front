@@ -1,14 +1,13 @@
 import { useQuery } from "react-query"
 import { shoesApi } from "../../api/shoesApi"
 import { IShoes, IShoesform } from "./types";
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField} from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, TextField, Typography,} from "@mui/material";
 import { useForm } from "react-hook-form";
 import s from './s.module.scss'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { EditShoes } from "../../components/editbutton/editshoes";
 
 export const ShoesPage = () =>{
-
     const {data, refetch} = useQuery({queryKey: ['shoes'], queryFn: ()=> shoesApi.getAll<IShoes[]>()})
     const {register, handleSubmit} = useForm<IShoesform>()
     
@@ -17,11 +16,17 @@ export const ShoesPage = () =>{
         refetch()
     }
     const onDelete = async (id: number) => {
+      console.log
       await shoesApi.delete(id)
       refetch()
   }
     return(
         <div className={s.root}>
+          <div>
+          <Typography variant="h3" color='primary'>
+            Shoes table
+          </Typography>
+          </div>
             <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
             <TextField id="standard-basic" {...register('model')} label="Enter Model" variant="standard" />
             <TextField id="standard-basic" {...register('brand')} label="Enter Brand" variant="standard" />
@@ -31,12 +36,12 @@ export const ShoesPage = () =>{
             <TextField id="standard-basic" {...register('sex')} label="Enter Sex" variant="standard" />
             <TextField id="standard-basic" {...register('price')} label="Enter Price" variant="standard" />
             <TextField id="standard-basic" {...register('amount')} label="Enter Amount" variant="standard" />
-            <Button type ='submit' variant="contained">Create new shoes</Button>
+            <Button type ='submit' color="success" variant="contained">Create new shoes</Button>
             </form>
             <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
+          <TableRow >
             <TableCell>Model</TableCell>
             <TableCell>Brand</TableCell>
             <TableCell>Size</TableCell>
@@ -45,14 +50,13 @@ export const ShoesPage = () =>{
             <TableCell>Sex</TableCell>
             <TableCell>Price</TableCell>
             <TableCell align="right">Amount</TableCell>
-          </TableRow>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow >
         </TableHead>
         <TableBody>
           {data && data.map(shoes => (
-            <TableRow
-              key={shoes.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+            <TableRow  key={shoes.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell>{shoes.model}</TableCell>
               <TableCell>{shoes.brand}</TableCell>
               <TableCell>{shoes.size}</TableCell>
@@ -62,10 +66,8 @@ export const ShoesPage = () =>{
               <TableCell>{shoes.price}</TableCell>
               <TableCell align="right">{shoes.amount}</TableCell>
               <TableCell align="right"><EditShoes id = {shoes.id}/></TableCell>
-              <TableCell align="right" onClick={() => onDelete(shoes.id)}>
-                <DeleteOutlineIcon/>
-                </TableCell>
-            </TableRow>
+              <TableCell align="right" onClick={() => onDelete(shoes.id)}><DeleteOutlineIcon/></TableCell>
+            </TableRow >
           ))}
         </TableBody>
       </Table>

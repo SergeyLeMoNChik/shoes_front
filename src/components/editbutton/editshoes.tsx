@@ -9,6 +9,7 @@ import { IShoes, IShoesEdit, IShoesform } from '../../page/shoes/types';
 import { useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Rotate90DegreesCcw';
+import s from './s.module.scss'
 
 export const EditShoes =(props: any) => {
     type Anchor = 'right';
@@ -22,13 +23,13 @@ export const EditShoes =(props: any) => {
         let id = props.id
         let shoes = {
             model: data.model,
-            size: data.size,
+            size: +data.size!,
             article: data.article,
             season: data.season,
             brand: data.brand,
             sex: data.sex,
-            price: data.price,
-            amount: data.amount
+            price: +data.price!,
+            amount: +data.amount!
         }
         await shoesApi.update(id, shoes)
         refetch()
@@ -49,11 +50,10 @@ export const EditShoes =(props: any) => {
     };
 
   const list = (anchor: Anchor) => (
-    <Box
-      role="presentation"
-    >
+    <Box role="presentation"  className={s.root}>
       <List>
-      <form onSubmit={handleSubmit(onEdit)}>
+        <div className={s.font}>
+        <form onSubmit={handleSubmit(onEdit) } className={s.form}>
             <TextField id="standard-basic" {...register('model')} label="Enter Model" variant="standard" />
             <TextField id="standard-basic" {...register('brand')} label="Enter Brand" variant="standard" />
             <TextField id="standard-basic" {...register('size')} label="Enter Size" variant="standard" />
@@ -62,8 +62,9 @@ export const EditShoes =(props: any) => {
             <TextField id="standard-basic" {...register('sex')} label="Enter Sex" variant="standard" />
             <TextField id="standard-basic" {...register('price')} label="Enter Price" variant="standard" />
             <TextField id="standard-basic" {...register('amount')} label="Enter Amount" variant="standard" />
-            <Button type ='submit' onClick={toggleDrawer(anchor, false)} variant="contained">Edit shoes</Button>
+            <Button type ='submit' onClick={toggleDrawer(anchor, false)} color='success' variant="contained">Edit shoes</Button>
             </form>
+        </div>
       </List>
     </Box>
   );
